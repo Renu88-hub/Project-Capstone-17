@@ -8,10 +8,10 @@ import {
 import { fetchClaims } from "../api/claimApi";
 
 export default function ClaimsAdjusterDashboard({ user, onLogout }) {
-  const [page, setPage] = useState("dashboard"); 
+  const [page, setPage] = useState("dashboard");
   const [selectedClaim, setSelectedClaim] = useState(null);
   const [claims, setClaims] = useState([]);
-
+  
   const statusList = ["SUBMITTED","IN_REVIEW","APPROVED","SETTLED","REJECTED"];
   const statusColors = {
     SUBMITTED: "#f39c12",
@@ -21,9 +21,10 @@ export default function ClaimsAdjusterDashboard({ user, onLogout }) {
     REJECTED: "#c0392b"
   };
 
-    useEffect(() => {
-      fetchClaims().then((res) => setClaims(res.data));
-    }, []);
+  useEffect(() => {
+    // Fetch claims whenever the page is set to "dashboard" or "claims"
+    fetchClaims().then((res) => setClaims(res.data));
+  }, [page]);  // Fetch data when page changes (on dashboard/claim list change)
 
   // Calculate summary stats dynamically
   const total = claims.length;
@@ -69,6 +70,10 @@ export default function ClaimsAdjusterDashboard({ user, onLogout }) {
     setPage("claimDetails");
   };
 
+  const refreshClaims = () => {
+    fetchClaims().then((res) => setClaims(res.data));  // This will refresh claims data on demand
+  };
+
   return (
     <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       {/* Sidebar */}
@@ -97,7 +102,7 @@ export default function ClaimsAdjusterDashboard({ user, onLogout }) {
           }}
         >Dashboard</button>
         <button
-          onClick={() => { setPage("claims"); setSelectedClaim(null); }}
+          onClick={() => { setPage("claims"); setSelectedClaim(null); refreshClaims(); }}
           style={{
             backgroundColor: "#0b6aff",
             border: "none",

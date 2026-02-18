@@ -21,7 +21,7 @@ export default function UnderwriterDashboard({ user, onLogout }) {
 
   useEffect(() => {
     fetchPolicies().then((res) => setPolicies(res.data));
-  }, []);
+  }, [page]);
 
   const handleSelectPolicy = (policy) => {
     setSelectedPolicy(policy);

@@ -13,6 +13,7 @@ export default function ClaimCreateForm({ addClaim }) {
   const [policies, setPolicies] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [insuredName, setInsuredName] = useState(""); 
+  const [status, setStatus] = useState("ACTIVE");
 
   useEffect(() => {
     const token = localStorage.getItem("token"); 
@@ -22,7 +23,7 @@ export default function ClaimCreateForm({ addClaim }) {
       return;
     }
 
-    fetch("http://localhost:5000/api/policies?status=ACTIVE", {
+    fetch("http://localhost:5000/api/policies?status=${status}", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,8 @@ export default function ClaimCreateForm({ addClaim }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPolicies(data); 
+        const activePolicies = data.filter(policy => policy.status === "ACTIVE");
+        setPolicies(activePolicies); 
         setLoading(false); 
       })
       .catch((error) => {

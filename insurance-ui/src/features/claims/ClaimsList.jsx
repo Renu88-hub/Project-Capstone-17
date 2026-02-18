@@ -57,6 +57,7 @@ export default function ClaimsList() {
       .catch((error) => console.error("Error re-fetching claims:", error));
   };
 
+
   return (
     <div>
       <button onClick={() => setShowCreate(true)}>+ Create Claim</button>
@@ -88,6 +89,7 @@ export default function ClaimsList() {
               </td>
             </tr>
           ))}
+          
         </tbody>
       </table>
 

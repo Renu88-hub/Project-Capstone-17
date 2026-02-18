@@ -159,7 +159,9 @@ const seedData = async () => {
 
         await Claim.create({
             _id: 1,
-            claimNumber: "CLM1001",
+            claimNumber: "CLM1001",            
+            policyNumber: "POL1001",
+            insuredName: "John Doe",
             policyId: 1,
             claimAmount: 2000000,
             approvedAmount: 2000000,
